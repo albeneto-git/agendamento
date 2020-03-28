@@ -16,7 +16,7 @@ import br.com.alura.model.AgendamentoEmail;
 
 @Path("/agendamentoemail")
 public class AgendamentoEmailResource {
-
+	
 	@Inject
 	private AgendamentoEmailBusiness agendamento;
 	

@@ -7,9 +7,11 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 
 import br.com.alura.dao.AgendamentoEmailDao;
+import br.com.alura.interception.Logger;
 import br.com.alura.model.AgendamentoEmail;
 
 @Stateless
+@Logger
 public class AgendamentoEmailBusiness {
 
 	@Inject
