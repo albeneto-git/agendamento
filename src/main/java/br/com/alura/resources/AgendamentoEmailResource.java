@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.alura.business.AgendamentoEmailBusiness;
+import br.com.alura.exception.BusinessException;
 import br.com.alura.model.AgendamentoEmail;
 
 @Path("/agendamentoemail")
@@ -29,7 +30,7 @@ public class AgendamentoEmailResource {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response salvarAgendamentoEmail(AgendamentoEmail agendamentoEmail) {
+	public Response salvarAgendamentoEmail(AgendamentoEmail agendamentoEmail) throws BusinessException {
 		agendamento.salvarAgendamentoEmail(agendamentoEmail);
 		return Response.status(201).build();
 	}
