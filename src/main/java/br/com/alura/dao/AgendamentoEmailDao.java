@@ -15,7 +15,6 @@ public class AgendamentoEmailDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	
 	public List<AgendamentoEmail> listarAgendamentosEmail(){
 		return entityManager.createQuery("select a from AgendamentoEmail a", AgendamentoEmail.class)
 				.getResultList();
@@ -31,4 +30,11 @@ public class AgendamentoEmailDao {
 	 	query.setParameter("email", email);
 	 	return query.getResultList();
 	}
+	
+	public List<AgendamentoEmail> listarAgendamentoEmailNaoEnviados(){
+	 	TypedQuery<AgendamentoEmail> query = entityManager.createQuery("select a from AgendamentoEmail a "
+	 			+ "where a.enviado = false", AgendamentoEmail.class);
+	 	return query.getResultList();
+	}	
+	
 }
