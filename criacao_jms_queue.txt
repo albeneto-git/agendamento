@@ -1,0 +1,3 @@
+-- Configuração do JMS dentro do wildfly
+jms-queue add --queue-address=EmailQueue --entries=java:/jms/queue/EmailQueue
+

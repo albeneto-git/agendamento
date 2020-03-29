@@ -27,6 +27,7 @@ public class AgendamentoEmailBusiness {
 	
 	@Resource(lookup = "java:jboss/mail/AgendamentoMailSession")
 	private Session sessaoEmail;
+	
 	private static String EMAIL_FROM = "mail.address";
 	private static String EMAIL_USER = "mail.smtp.user";
 	private static String EMAIL_PASSWORD = "mail.smtp.pass";	
@@ -62,6 +63,11 @@ public class AgendamentoEmailBusiness {
 		} catch (MessagingException e) {
 		    throw new RuntimeException(e);
 		}		
-	}	
+	}
+	
+	public void marcarEnviadas(AgendamentoEmail agendamentoEmail) {
+		agendamentoEmail.setEnviado(true);
+		dao.atualizarAgendamentoEmail(agendamentoEmail);
+	}
 	
 }
