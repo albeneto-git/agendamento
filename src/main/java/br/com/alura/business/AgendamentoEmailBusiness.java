@@ -5,6 +5,10 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -20,6 +24,7 @@ import br.com.alura.model.AgendamentoEmail;
 
 @Stateless
 @Logger
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class AgendamentoEmailBusiness {
 
 	@Inject
@@ -28,14 +33,15 @@ public class AgendamentoEmailBusiness {
 	@Resource(lookup = "java:jboss/mail/AgendamentoMailSession")
 	private Session sessaoEmail;
 	
-	private static String EMAIL_FROM = "mail.address";
-	private static String EMAIL_USER = "mail.smtp.user";
-	private static String EMAIL_PASSWORD = "mail.smtp.pass";	
+	private static String EMAIL_FROM = "smtp.mailtrap.io";
+	private static String EMAIL_USER = "c6e6351826a33a";
+	private static String EMAIL_PASSWORD = "6ac6b86d58187d";	
 	
 	public List<AgendamentoEmail> listarAgendamentosEmail(){
 		return dao.listarAgendamentosEmail();
 	}
 
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void salvarAgendamentoEmail(@Valid AgendamentoEmail agendamentoEmail) throws BusinessException {
 		
 		if(!dao.listarAgendamentoEmailPorEmail(agendamentoEmail.getEmail()).isEmpty()) {
@@ -44,6 +50,7 @@ public class AgendamentoEmailBusiness {
 		
 		agendamentoEmail.setEnviado(false);
 		dao.salvarAgendamentoEmail(agendamentoEmail);
+		throw new BusinessException();
 	}
 	
 	public List<AgendamentoEmail> listarAgendamentoEmailNaoEnviados(){
@@ -53,13 +60,13 @@ public class AgendamentoEmailBusiness {
 	public void enviarEmail(AgendamentoEmail agendamentoEmail) {
 		try {
 		    MimeMessage mensagem = new MimeMessage(sessaoEmail);
-		    mensagem.setFrom(sessaoEmail.getProperty(EMAIL_FROM));
+		    mensagem.setFrom(EMAIL_FROM);
 		    mensagem.setRecipients(Message.RecipientType.TO, agendamentoEmail.getEmail());
 		    mensagem.setSubject(agendamentoEmail.getAssunto());
 		    mensagem.setText(Optional.ofNullable(agendamentoEmail.getMensagem()).orElse(""));
 		    Transport.send(mensagem,
-		    sessaoEmail.getProperty(EMAIL_USER),
-		    sessaoEmail.getProperty(EMAIL_PASSWORD));
+		    EMAIL_USER,
+		    EMAIL_PASSWORD);
 		} catch (MessagingException e) {
 		    throw new RuntimeException(e);
 		}		
