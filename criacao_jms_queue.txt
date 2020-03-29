@@ -1,3 +1,11 @@
 -- Configuração do JMS dentro do wildfly
 jms-queue add --queue-address=EmailQueue --entries=java:/jms/queue/EmailQueue
 
+-- para consultar a fila
+jms-queue list-messages --queue-address=EmailQueue
+
+-- consulta as mensagens ativas
+/subsystem=messaging-activemq/server=default/jms-queue=EmailQueue:list-messages
+
+ -- consulta fila de rollback
+/subsystem=messaging-activemq/server=default/jms-queue=DLQ:list-messages
