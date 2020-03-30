@@ -50,7 +50,7 @@ public class AgendamentoEmailBusiness {
 		
 		agendamentoEmail.setEnviado(false);
 		dao.salvarAgendamentoEmail(agendamentoEmail);
-		throw new BusinessException();
+//		Descomentar para teste de transação throw new BusinessException();
 	}
 	
 	public List<AgendamentoEmail> listarAgendamentoEmailNaoEnviados(){
